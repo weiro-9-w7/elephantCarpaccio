@@ -19,4 +19,8 @@ public class Order {
     return totalAmount;
   }
 
+  public float getDiscountAmount(float totalAmount){
+    return totalAmount * Discount.getDiscount(totalAmount).getRatio() / 100;
+  }
+
 }
