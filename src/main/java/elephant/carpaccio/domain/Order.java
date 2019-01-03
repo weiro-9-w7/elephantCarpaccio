@@ -15,11 +15,11 @@ public class Order {
   }
 
   public float getTotalAmount(){
-    float totalAmout = 0.00f;
-    for (OrderItem orderItem : orderItems) {
-      totalAmout += orderItem.getQuality() * orderItem.getItem().getPrice();
+    float totalAmount = 0.00f;
+    for (OrderItem orderItem : getOrderItems()) {
+      totalAmount += orderItem.getQuality() * orderItem.getItem().getPrice();
     }
-    return totalAmout;
+    return totalAmount;
   }
 
 }
