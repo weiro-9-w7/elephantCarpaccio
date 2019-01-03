@@ -28,12 +28,6 @@ public class OrderTest {
   }
 
   @Test
-  public void should_return_item_price_multi_quality_when_order_contains_more_items() {
-    createOrder();
-    assertTrue(order.getDiscountAmount(order.getTotalAmount()) == 3097.00f * Discount.three.getRatio() / 100 );
-  }
-
-  @Test
   public void should_return_tax_amount_when_state_code_is_AL() {
     createOrder();
     assertTrue(order.getTaxAmount(order.getTotalAmount(), Tax.AL.getStateCode()) == 3097.00f * Tax.AL.getRatio() / 100);
