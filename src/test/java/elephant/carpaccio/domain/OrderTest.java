@@ -29,18 +29,17 @@ public class OrderTest {
 
   @Test
   public void should_return_item_price_multi_quality_when_order_contains_more_items() {
-    Item item = createItem("label1", 100.00f);
-    OrderItem orderItem = new OrderItem(item, 1);
-    order.getOrderItems().add(orderItem);
-
-    Item item2 = createItem("Label2", 999.00f);
-    OrderItem orderItem2 = new OrderItem(item2, 3);
-    order.getOrderItems().add(orderItem2);
-    assertTrue(order.getTotalAmount() == 3097.00f);
+    createOrder();
+    assertTrue(order.getDiscountAmount(order.getTotalAmount()) == 3097.00f * Discount.three.getRatio() / 100 );
   }
 
   @Test
-  public void should_return_discount_amount_when_total_amount_more_then_1000() {
+  public void should_return_tax_amount_when_state_code_is_AL() {
+    createOrder();
+    assertTrue(order.getTaxAmount(order.getTotalAmount(), Tax.AL.getStateCode()) == 3097.00f * Tax.AL.getRatio() / 100);
+  }
+
+  private void createOrder() {
     Item item = createItem("label1", 100.00f);
     OrderItem orderItem = new OrderItem(item, 1);
     order.getOrderItems().add(orderItem);
@@ -48,7 +47,6 @@ public class OrderTest {
     Item item2 = createItem("Label2", 999.00f);
     OrderItem orderItem2 = new OrderItem(item2, 3);
     order.getOrderItems().add(orderItem2);
-    assertTrue(order.getDiscountAmount(order.getTotalAmount()) == 3097.00f * 3 / 100);
   }
 
   private Item createItem(String label, float price) {

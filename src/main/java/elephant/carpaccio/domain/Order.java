@@ -23,4 +23,7 @@ public class Order {
     return totalAmount * Discount.getDiscount(totalAmount).getRatio() / 100;
   }
 
+  public float getTaxAmount(float totalAmount, String stateCode){
+    return totalAmount * Tax.getTax(stateCode).getRatio() / 100;
+  }
 }
