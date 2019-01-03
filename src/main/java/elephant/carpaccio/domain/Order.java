@@ -5,18 +5,15 @@ import java.util.List;
 
 public class Order {
 
-  private List<OrderItem> orderItems;
+  private List<OrderItem> orderItems = new ArrayList<OrderItem>();
 
   public List<OrderItem> getOrderItems() {
-    if(orderItems == null){
-      orderItems = new ArrayList<OrderItem>();
-    }
     return orderItems;
   }
 
   public float getTotalAmount(){
     float totalAmount = 0.00f;
-    for (OrderItem orderItem : getOrderItems()) {
+    for (OrderItem orderItem : orderItems) {
       totalAmount += orderItem.getQuality() * orderItem.getItem().getPrice();
     }
     return totalAmount;
