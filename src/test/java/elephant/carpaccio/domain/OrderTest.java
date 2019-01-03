@@ -22,9 +22,7 @@ public class OrderTest {
 
   @Test
   public void should_return_item_price_when_order_contains_item() {
-    Item item = new Item();
-    item.setLabel("label1");
-    item.setPrice(100.00f);
+    Item item = createItem("label1", 100.00f);
     OrderItem orderItem = new OrderItem(item, 1);
     order.getOrderItems().add(orderItem);
     assertTrue(order.getTotalAmount() == 100.00f);
@@ -32,17 +30,20 @@ public class OrderTest {
 
   @Test
   public void should_return_item_price_multi_quality_when_order_contains_more_items() {
-    Item item = new Item();
-    item.setLabel("label1");
-    item.setPrice(100.00f);
+    Item item = createItem("label1", 100.00f);
     OrderItem orderItem = new OrderItem(item, 1);
     order.getOrderItems().add(orderItem);
 
-    Item item2 = new Item();
-    item2.setLabel("Label2");
-    item2.setPrice(999.00f);
+    Item item2 = createItem("Label2", 999.00f);
     OrderItem orderItem2 = new OrderItem(item2, 3);
     order.getOrderItems().add(orderItem2);
     assertTrue(order.getTotalAmount() == 3097.00f);
+  }
+
+  private Item createItem(String label, float price) {
+    Item item = new Item();
+    item.setLabel(label);
+    item.setPrice(price);
+    return item;
   }
 }
