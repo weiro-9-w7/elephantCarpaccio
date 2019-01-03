@@ -27,12 +27,6 @@ public class OrderTest {
     assertTrue(order.getTotalAmount() == 100.00f);
   }
 
-  @Test
-  public void should_return_tax_amount_when_state_code_is_AL() {
-    createOrder();
-    assertTrue(order.getTaxAmount(order.getTotalAmount(), Tax.AL.getStateCode()) == 3097.00f * Tax.AL.getRatio() / 100);
-  }
-
   private void createOrder() {
     Item item = createItem("label1", 100.00f);
     OrderItem orderItem = new OrderItem(item, 1);

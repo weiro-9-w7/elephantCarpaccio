@@ -19,7 +19,4 @@ public class Order {
     return totalAmount;
   }
 
-  public float getTaxAmount(float totalAmount, String stateCode){
-    return totalAmount * Tax.getTax(stateCode).getRatio() / 100;
-  }
 }
