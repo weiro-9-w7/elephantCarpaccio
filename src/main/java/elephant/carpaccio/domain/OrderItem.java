@@ -27,4 +27,8 @@ public class OrderItem {
   public void setItem(Item item) {
     this.item = item;
   }
+
+  public float getTotalItemPrice() {
+    return this.item.getPrice() * quality;
+  }
 }

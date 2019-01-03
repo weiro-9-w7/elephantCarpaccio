@@ -4,6 +4,14 @@ public class Item {
   private String label;
   private float price;
 
+  public Item() {
+  }
+
+  public Item(String label, float price) {
+    this.label = label;
+    this.price = price;
+  }
+
   public String getLabel() {
     return label;
   }
