@@ -6,12 +6,15 @@ import elephant.carpaccio.domain.Item;
 import elephant.carpaccio.domain.Order;
 import elephant.carpaccio.domain.OrderItem;
 import elephant.carpaccio.domain.Tax;
+import java.text.DecimalFormat;
+import java.text.Format;
 
 public class Printer {
 
   private static final String TAB = "  ";
   private static DiscountCalculator discountCalculator = new DiscountCalculator();
   private static TaxCalculator taxCalculator = new TaxCalculator();
+  private static Format formatter = new DecimalFormat("##0.00");
 
   public static void print(Order order) {
     String printContent = getContent(order);
@@ -21,8 +24,10 @@ public class Printer {
   private static String getContent(Order order) {
     StringBuffer content = new StringBuffer();
     for (OrderItem orderItem : order.getOrderItems()) {
-      content
-          .append(orderItem.getItem().getLabel() + TAB + orderItem.getQuality() + TAB + orderItem.getItem().getPrice() + TAB + orderItem.getTotalItemPrice());
+      content.append(orderItem.getItem().getLabel() + TAB
+              + orderItem.getQuality() + TAB
+              + formatter.format(orderItem.getItem().getPrice()) + TAB
+              + formatter.format(orderItem.getTotalItemPrice()));
       content.append("\r\n");
     }
 
@@ -30,20 +35,20 @@ public class Printer {
     content.append("\r\n");
 
     float totalAmount = order.getTotalAmount();
-    content.append(String.format("Total without taxes: " + TAB + "%s", totalAmount));
+    content.append(String.format("Total without taxes: " + TAB + "%s", formatter.format(totalAmount)));
     content.append("\r\n");
 
     float discountAmount = discountCalculator.getDiscountAmount(totalAmount);
-    content.append(String.format("Discout XXX :  " + TAB + "- %s", discountAmount));
+    content.append(String.format("Discout XXX :  " + TAB + "- %s", formatter.format(discountAmount)));
     content.append("\r\n");
 
     float taxAmount = taxCalculator.getTaxAmount(totalAmount, Tax.AL.getStateCode());
-    content.append(String.format("Tax XXX :  " + TAB + "+ %s", taxAmount));
+    content.append(String.format("Tax XXX :  " + TAB + "+ %s", formatter.format(taxAmount)));
     content.append("\r\n");
 
     content.append("-----------------------------------");
     content.append("\r\n");
-    content.append(String.format("Total price:  %s", totalAmount - discountAmount + taxAmount));
+    content.append(String.format("Total price:  %s", formatter.format(totalAmount - discountAmount + taxAmount)));
 
     return content.toString();
   }
