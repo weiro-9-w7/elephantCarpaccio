@@ -1,7 +1,6 @@
 package elephant.carpaccio.printer;
 
-import elephant.carpaccio.calculator.DiscountCalculator;
-import elephant.carpaccio.calculator.TaxCalculator;
+import elephant.carpaccio.calculator.RatioCalculator;
 import elephant.carpaccio.domain.Discount;
 import elephant.carpaccio.domain.Item;
 import elephant.carpaccio.domain.Order;
@@ -13,8 +12,8 @@ import java.text.Format;
 public class Printer {
 
   private static final String TAB = "  ";
-  private static DiscountCalculator discountCalculator = new DiscountCalculator();
-  private static TaxCalculator taxCalculator = new TaxCalculator();
+  private static RatioCalculator discountCalculator = new RatioCalculator();
+  private static RatioCalculator taxCalculator = new RatioCalculator();
   private static Format formatter = new DecimalFormat("##0.00");
 
   public static void print(Order order) {
@@ -39,11 +38,11 @@ public class Printer {
     content.append(String.format("Total without taxes: " + TAB + "%s", formatter.format(totalAmount)));
     content.append("\r\n");
 
-    float discountAmount = discountCalculator.getDiscountAmount(totalAmount, Discount.getDiscount(totalAmount).getRatio() / 100);
+    float discountAmount = discountCalculator.getRatioAmount(totalAmount, Discount.getDiscount(totalAmount).getRatio() / 100);
     content.append(String.format("Discout XXX :  " + TAB + "- %s", formatter.format(discountAmount)));
     content.append("\r\n");
 
-    float taxAmount = taxCalculator.getTaxAmount(totalAmount, Tax.getTax(Tax.AL.getStateCode()).getRatio() / 100);
+    float taxAmount = taxCalculator.getRatioAmount(totalAmount, Tax.getTax(Tax.AL.getStateCode()).getRatio() / 100);
     content.append(String.format("Tax XXX :  " + TAB + "+ %s", formatter.format(taxAmount)));
     content.append("\r\n");
 
