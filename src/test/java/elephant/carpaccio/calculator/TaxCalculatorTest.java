@@ -11,7 +11,7 @@ public class TaxCalculatorTest {
 
   @Test
   public void should_return_tax_amount_given_state_code_is_AL() {
-    assertTrue(calculator.getTaxAmount(3097.00f, Tax.AL.getStateCode()) == 3097.00f * Tax.AL.getRatio() / 100);
+    assertTrue(calculator.getTaxAmount(3097.00f, Tax.getTax(Tax.AL.getStateCode()).getRatio() / 100) == 3097.00f * Tax.AL.getRatio() / 100);
   }
 
 }

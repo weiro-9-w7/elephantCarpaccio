@@ -2,17 +2,17 @@ package elephant.carpaccio.domain;
 
 public enum Discount {
 
-  fifth(50000f, 15),
-  ten(10000f, 10),
-  seven(7000f, 7),
-  five(5000f, 5),
-  three(1000f, 3),
-  zero(0f, 0);
+  fifth(50000f, 15.00f),
+  ten(10000f, 10.00f),
+  seven(7000f, 7.00f),
+  five(5000f, 5.00f),
+  three(1000f, 3.00f),
+  zero(0f, 0.00f);
 
   private final float totalAmount;
-  private final int ratio;
+  private final float ratio;
 
-  Discount(float totalAmount, int ratio) {
+  Discount(float totalAmount, float ratio) {
     this.totalAmount = totalAmount;
     this.ratio = ratio;
   }
@@ -21,8 +21,8 @@ public enum Discount {
     return totalAmount;
   }
 
-  public int getRatio() {
-    return ratio;
+  public float getRatio() {
+    return ratio / 100;
   }
 
   public static Discount getDiscount(Float total) {
