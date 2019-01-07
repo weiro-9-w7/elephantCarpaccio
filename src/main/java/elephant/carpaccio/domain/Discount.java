@@ -22,7 +22,7 @@ public enum Discount {
   }
 
   public float getRatio() {
-    return ratio / 100;
+    return ratio;
   }
 
   public static Discount getDiscount(Float total) {

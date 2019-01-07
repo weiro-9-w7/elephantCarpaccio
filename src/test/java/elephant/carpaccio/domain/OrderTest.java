@@ -21,26 +21,12 @@ public class OrderTest {
 
   @Test
   public void should_return_item_price_when_order_contains_item() {
-    Item item = createItem("label1", 100.00f);
+
+    Item item = new Item("label1", 100.00f);
     OrderItem orderItem = new OrderItem(item, 1);
     order.getOrderItems().add(orderItem);
     assertTrue(order.getTotalAmount() == 100.00f);
   }
 
-  private void createOrder() {
-    Item item = createItem("label1", 100.00f);
-    OrderItem orderItem = new OrderItem(item, 1);
-    order.getOrderItems().add(orderItem);
 
-    Item item2 = createItem("Label2", 999.00f);
-    OrderItem orderItem2 = new OrderItem(item2, 3);
-    order.getOrderItems().add(orderItem2);
-  }
-
-  private Item createItem(String label, float price) {
-    Item item = new Item();
-    item.setLabel(label);
-    item.setPrice(price);
-    return item;
-  }
 }

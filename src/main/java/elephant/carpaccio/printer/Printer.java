@@ -16,34 +16,30 @@ public class Printer {
   private static RatioCalculator taxCalculator = new RatioCalculator();
   private static Format formatter = new DecimalFormat("##0.00");
 
-  public static void print(Order order) {
+  private void print(Order order) {
     String printContent = getContent(order);
     System.out.println(printContent);
   }
 
-  private static String getContent(Order order) {
-    StringBuffer content = new StringBuffer();
-    for (OrderItem orderItem : order.getOrderItems()) {
-      content.append(orderItem.getItem().getLabel() + TAB
-              + orderItem.getQuality() + TAB
-              + formatter.format(orderItem.getItem().getPrice()) + TAB
-              + formatter.format(orderItem.getTotalItemPrice()));
-      content.append("\r\n");
-    }
+  private String getContent(Order order) {
+    StringBuilder content = new StringBuilder();
+    content.append(getOrderItemContent(order));
 
     content.append("-----------------------------------");
     content.append("\r\n");
 
     float totalAmount = order.getTotalAmount();
-    content.append(String.format("Total without taxes: " + TAB + "%s", formatter.format(totalAmount)));
+    content.append(getTotalAmountContent(totalAmount));
     content.append("\r\n");
 
-    float discountAmount = discountCalculator.getRatioAmount(totalAmount, Discount.getDiscount(totalAmount).getRatio() / 100);
-    content.append(String.format("Discout XXX :  " + TAB + "- %s", formatter.format(discountAmount)));
+    float discountRatio = Discount.getDiscount(totalAmount).getRatio();
+    float discountAmount = discountCalculator.getRatioAmount(totalAmount, discountRatio / 100);
+    content.append(String.format("Discout %s  :  " + TAB + "- %s", discountRatio+"", formatter.format(discountAmount)));
     content.append("\r\n");
 
-    float taxAmount = taxCalculator.getRatioAmount(totalAmount, Tax.getTax(Tax.AL.getStateCode()).getRatio() / 100);
-    content.append(String.format("Tax XXX :  " + TAB + "+ %s", formatter.format(taxAmount)));
+    float taxRatio = Tax.getTax(Tax.AL.getStateCode()).getRatio();
+    float taxAmount = taxCalculator.getRatioAmount(totalAmount - discountAmount, taxRatio / 100);
+    content.append(String.format("Tax %s  :  " + TAB + "+ %s", taxRatio+"", formatter.format(taxAmount)));
     content.append("\r\n");
 
     content.append("-----------------------------------");
@@ -53,12 +49,29 @@ public class Printer {
     return content.toString();
   }
 
+  private String getTotalAmountContent(float totalAmount) {
+    return String.format("Total without taxes: " + TAB + "%s", formatter.format(totalAmount));
+  }
+
+  private String getOrderItemContent(Order order) {
+    StringBuilder content = new StringBuilder();
+    for (OrderItem orderItem : order.getOrderItems()) {
+      String orderContent = orderItem.getItem().getLabel() + TAB
+          + orderItem.getQuality() + TAB
+          + formatter.format(orderItem.getItem().getPrice()) + TAB
+          + formatter.format(orderItem.getTotalItemPrice());
+      content.append(orderContent);
+      content.append("\r\n");
+    }
+    return content.toString();
+  }
+
   public static void main(String[] args) {
     Order order = new Order();
     OrderItem orderItem = new OrderItem(new Item("Label1", 999.00f), 3);
     order.getOrderItems().add(orderItem);
     OrderItem orderItem2 = new OrderItem(new Item("Label2", 999.00f), 3);
     order.getOrderItems().add(orderItem2);
-    Printer.print(order);
+    new Printer().print(order);
   }
 }
