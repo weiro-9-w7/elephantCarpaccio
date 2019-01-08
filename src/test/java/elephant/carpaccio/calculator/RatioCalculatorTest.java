@@ -1,9 +1,8 @@
 package elephant.carpaccio.calculator;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertTrue;
 
 import elephant.carpaccio.domain.Discount;
-import elephant.carpaccio.domain.Tax;
 import org.junit.Test;
 
 public class RatioCalculatorTest {
